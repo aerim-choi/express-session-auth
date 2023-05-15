@@ -4,12 +4,14 @@ var path = require('path');
 var fs = require('fs');
 var sanitizeHtml = require('sanitize-html');
 var template = require('../lib/template.js');
+//인증상태 UI구현
 var auth = require('../lib/auth');
 
 router.get('/create', function (request, response) {
+  //로그인이 되지 않았을 경우 게시글을 작성하지 못해서 루트로 튕겨낸다.
   if (!auth.isOwner(request, response)) {
     response.redirect('/');
-    return false;
+    return false;//다음 코드를 실행시키지 않기 위해서 false로 튕겨낸다.
   }
   var title = 'WEB - create';
   var list = template.list(request.list);
@@ -28,9 +30,10 @@ router.get('/create', function (request, response) {
 });
 
 router.post('/create_process', function (request, response) {
+  //로그인이 되지 않았을 경우 게시글을 작성하지 못해서 루트로 튕겨낸다.
   if (!auth.isOwner(request, response)) {
     response.redirect('/');
-    return false;
+    return false; //다음 코드를 실행시키지 않기 위해서 false로 튕겨낸다.
   }
   var post = request.body;
   var title = post.title;
